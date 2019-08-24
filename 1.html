@@ -1,6 +1,9 @@
 <html>
 <head>
-<script type="text/javascript" src="dict.js"></script>
+<script type="text/javascript" src="alpha.js"></script>
+<script type="text/javascript" src="timer.js"></script>
+<script type="text/javascript" src="voca.js"></script>
+<script type="text/javascript" src="study.js"></script>
 </head>
 <body>
 <textarea style="width:700px; height: 400px;" id=text></textarea>
@@ -17,5 +20,8 @@
  <div onclick="Timer.start_and_show()">Start</div>
  <div id=stop onclick="Study.stop()"></div>
 </div>
+<div onclick="Study.gather('text');Study.define()">Gather</div>
+<div style="font-size: 20px;" onclick="Study.up();">V</div>
+<div style="font-size: 20px;" onclick="Study.down();">X</div>
 </body>
 </html>
