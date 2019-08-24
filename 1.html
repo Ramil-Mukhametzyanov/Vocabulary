@@ -4,14 +4,18 @@
 </head>
 <body>
 <textarea style="width:700px; height: 400px;" id=text></textarea>
-<div onclick="gather('text');">Click</div>
-<div id=study>
+<div onclick="Study.gather('text');Study.define()">Gather</div>
+<div style = "border: 3px solid green; width: 40px; height: 20px;" id=switch><div onclick="Study.begin(); Study.refresh();">Study</div></div>
+<div style = "border: 5px solid green; width: 400px; font-size: 50px;" onclick="Study.stop(); Study.begin();"id=next>Next</div>
+<div onclick="Study.begin();">Study</div>
+<div>
+ <div style="color: red; font-size: 46px;" id=object></div>
  <div id=begin></div>
  <div id=current></div>
  <div id=time></div>
  <div id=end></div>
- <div onclick="Timer.start()">Start</div>
- <div id=stop onclick="Timer.stop()"></div>
-</id>
+ <div onclick="Timer.start_and_show()">Start</div>
+ <div id=stop onclick="Study.stop()"></div>
+</div>
 </body>
 </html>
