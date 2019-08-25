@@ -1,4 +1,4 @@
-Study = {sym: 0, index: 0, total_time: 0, learning: 0, level: 0, type:'mastering', mtime: 0};
+Study = {sym: 0, index: 0, total_time: 0, learning: 0, level: 0, type:'mastering', mtime: 0, text: ""};
 Study.init = function(switcher, object, alphabet, timer, voca){
 this._goal=object;
 this._switch = switcher;
@@ -13,7 +13,8 @@ this.prior = [];
  }
 }
 Study.gather = function(id){
- this._alpha.gather(id);
+ this.text = document.getElementById(id).value;
+ this._alpha.gather(this.text);
  var sym; var invo;
  for(var i = 0; i < this._alpha.chars.length; i++){
   this.time[i] = 0;
@@ -116,7 +117,7 @@ Study.update_prior = function(){
 }
 */
 Study.init("switch", "object", Alphabet, Timer, Vocabulary);
-Study.type = "information";
+//Study.type = "information";
 //setTimeout('document.getElementById(Study._goal).style="color: #7f00FF; font-size: 200px; width: 200px; height: 250px; border: 3px solid #7f00FF; align: center;"', 100);
-//Study.type = "mastering";
+Study.type = "mastering";
 //setTimeout('document.getElementById(Study._goal).style="color: #FF000; font-size: 200px; width: 200px; height: 250px; border: 3px solid #FF000; align: center;"', 100);

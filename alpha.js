@@ -56,8 +56,7 @@ var sar = [];
 }
  return sar;
 }
-Alphabet.gather = function(id){
- Text = document.getElementById(id).value;
+Alphabet.gather = function(Text){
  for (var i = 0; i < Text.length; i++){
   this.add(Text.charAt(i));
  }
