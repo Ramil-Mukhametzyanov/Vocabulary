@@ -31,14 +31,26 @@ Vocabulary.merge_word = function(w, text){
   con[l] = c; l++;
   c = text.indexOf(w, c + 1);
  }
+ var ind;
+ var tright = 0;
+ var tleft = 0;
  for(var i = 0; i < con.length; i++){
   v = text.substring(con[i] - 1, con[i]);
-  if(this.search(v) != -1){
-   this.check_and_add(v + w);
+  ind = this.search(v);
+  if(ind != -1){
+   if(this.words[ind].level >= 0){
+    this.check_and_add(v + w);
+    tright++;
+   }
   }
   v = text.substring(con[i] + w.length, con[i] + 1 + w.length);
-  if(this.search(v) != -1){
-   this.check_and_add(w + v);
+  ind =  this.search(v);
+  if(ind != -1){
+   if(this.words[ind].level >= 0){
+    this.check_and_add(w + v);
+    tleft++;
+   }
   }
  }
+ return tright + tleft;
 }
