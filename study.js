@@ -38,14 +38,16 @@ Study.define = function(){
  var goal;
  var cur;
  for(var i = 0; i < this.time.length; i++){
-  goal = this._alpha.chars[i].counter/this._alpha.count;
+//  goal = this._alpha.chars[i].counter/this._alpha.count;
+  goal = this.freq[i];
   cur = this.time[i]/this.total_time;
   this.prior[i] = goal - cur;
  }
  if(this.type == 'mastering'){
   var max = 0; var in_voca = -1; var sym = "";
   for(var i = 0; i < this.time.length; i++){
-   var sym = this._alpha.chars[i].symbol
+//   var sym = this._alpha.chars[i].symbol
+   var sym = this.symbols[i]
    in_voca = this._vocabulary.search(sym);
    if(in_voca != -1 && this._vocabulary.words[in_voca].level == this.level){
     if(this.prior[i] > max){
@@ -57,7 +59,8 @@ Study.define = function(){
  }else if(this.type == 'information'){
   var min = 1000000; var in_voca = -1; var sym = "";
   for(var i = 0; i < this.time.length; i++){
-   var sym = this._alpha.chars[i].symbol
+//   var sym = this._alpha.chars[i].symbol
+   var sym = this.symbols[i];
    in_voca = this._vocabulary.search(sym);
    if(in_voca != -1 && this._vocabulary.words[in_voca].level == this.level){
     if(this.prior[i] > 0 && this.prior[i] < min){
@@ -67,7 +70,8 @@ Study.define = function(){
    }
   }
  }
- this.sym = this._alpha.chars[this.index].symbol;
+ this.sym = this.symbols[this.index];
+// this.sym = this._alpha.chars[this.index].symbol;
  if(this._vocabulary.search(this.sym) == -1) this._vocabulary.add(this.sym);
 }
 Study.begin = function(){
@@ -89,12 +93,17 @@ Study.stop = function(){
  this.time[this.index] += t;
  this.total_time += t;
  var num = this._vocabulary.merge_word(this.sym, this.text);
-/*
- var len = this._vocabulary.words.length
- for(var i = num; i >= 1; i--){
-  this.symbols[len - i] = this._vocabulary[len - i];
+ if(num > 0){
+  var len = this._vocabulary.words.length;
+  var word;
+  for(var i = num; i >= 1; i--){
+   word = this._vocabulary.words[len - i].string;
+   this.symbols[len - i] = word;
+   this.time[len - i] = 0;
+   this.prior[len -i] = 0;
+   this.freq[len - i] = this.get_freq(word);
+  }
  }
-*/
  this.define();
  this.learning = 0;
 }
@@ -132,8 +141,13 @@ Study.period = function(t){
  Study.stop();
  Study.begin();
 }
+Study.get_freq = function(word){
+ var len = word.length;
+ var sum = 0;
+ for(var i = 0; i < len; i++){
+  sum += this._alpha.get_freq(word.substring(i, i + 1));
+ }
+ return sum/len;
+}
 Study.init("switch", "object", Alphabet, Timer, Vocabulary);
-Study.type = "information";
-//setTimeout('document.getElementById(Study._goal).style="color: #7f00FF; font-size: 200px; width: 200px; height: 250px; border: 3px solid #7f00FF; align: center;"', 100);
-//Study.type = "mastering";
-//setTimeout('document.getElementById(Study._goal).style="color: #FF000; font-size: 200px; width: 200px; height: 250px; border: 3px solid #FF000; align: center;"', 100);
+//Study.type = "information";

@@ -61,3 +61,9 @@ Alphabet.gather = function(Text){
   this.add(Text.charAt(i));
  }
 }
+Alphabet.get_freq = function(sym){
+ for(var i = 0; i < this.chars.length; i++){
+  if(this.chars[this.sort[i]].symbol == sym) return this.chars[this.sort[i]].counter/this.count;
+ }
+ return 0;
+}
