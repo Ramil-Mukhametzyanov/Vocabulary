@@ -9,7 +9,7 @@
 <textarea style="width:700px; height: 400px;" id=text></textarea>
 <div onclick="Study.gather('text');Study.define()">Gather</div>
 <div style = "border: 3px solid green; width: 40px; height: 20px;" id=switch><div onclick="Study.begin(); Study.refresh();">Study</div></div>
-<div style = "border: 5px solid green; width: 400px; font-size: 50px;" onclick="Study.stop(); Study.begin();"id=next>Next</div>
+<div style = "border: 5px solid green; width: 400px; font-size: 50px;" onclick="Study.period(1000);/*Study.stop(); Study.begin();*/"id=next>Next</div>
 <div onclick="Study.begin();">Study</div>
 <div>
  <div style="color: green; font-size: 200px; width: auto; height: 250px; border: 3px solid green; align: center;" id=object></div>

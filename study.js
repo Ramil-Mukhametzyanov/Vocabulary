@@ -6,7 +6,9 @@ this._alpha = alphabet;
 this._vocabulary = voca;
 this._timer = timer;
 this.time = [];
+this.freq = [];
 this.prior = [];
+this.symbols = [];
  for(var i = 0; i < alphabet.chars.length; i++){
   this.time[i] = 0;
   this.prior[i] = 0;
@@ -19,11 +21,13 @@ Study.gather = function(id){
  for(var i = 0; i < this._alpha.chars.length; i++){
   this.time[i] = 0;
   this.prior[i] = 0;
-  sym = this._alpha.chars[i].symbol;
+  this.freq[i] = this._alpha.chars[i].counter/this._alpha.count;
+  this.symbols[i] = this._alpha.chars[i].symbol;
+  sym = this.symbols[i];
   invo = this._vocabulary.search(sym);
   if(invo == -1) this._vocabulary.add(sym);
  }
-// setTimeout("Study.update_prior();", 10000);
+// setTimeout("Study.update_prior();", 1000);
 }
 Study.define = function(){
  if(this.total_time == 0){
@@ -84,6 +88,13 @@ Study.stop = function(){
  var t = this._timer.time;
  this.time[this.index] += t;
  this.total_time += t;
+ var num = this._vocabulary.merge_word(this.sym, this.text);
+/*
+ var len = this._vocabulary.words.length
+ for(var i = num; i >= 1; i--){
+  this.symbols[len - i] = this._vocabulary[len - i];
+ }
+*/
  this.define();
  this.learning = 0;
 }
@@ -95,7 +106,7 @@ Study.down = function(){
 }
  /*
 Study.update_prior = function(){
-  setTimeout("Study.update_prior()",100);
+  setTimeout("Study.update_prior()",1000);
   goal = this._alpha.chars[this.index].counter/this._alpha.count;
   var t = this._timer.time;
   cur = (this.time[this.index] + t)/(this.total_time + t);
@@ -116,8 +127,13 @@ Study.update_prior = function(){
   document.getElementById("prior").innerHTML = pr;
 }
 */
+Study.period = function(t){
+ setTimeout("Study.period(" + t + ");", t);
+ Study.stop();
+ Study.begin();
+}
 Study.init("switch", "object", Alphabet, Timer, Vocabulary);
-//Study.type = "information";
+Study.type = "information";
 //setTimeout('document.getElementById(Study._goal).style="color: #7f00FF; font-size: 200px; width: 200px; height: 250px; border: 3px solid #7f00FF; align: center;"', 100);
-Study.type = "mastering";
+//Study.type = "mastering";
 //setTimeout('document.getElementById(Study._goal).style="color: #FF000; font-size: 200px; width: 200px; height: 250px; border: 3px solid #FF000; align: center;"', 100);

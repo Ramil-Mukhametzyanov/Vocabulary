@@ -6,8 +6,9 @@ Vocabulary.add = function(w){
  this.words[l].level = 0;
 }
 Vocabulary.check_and_add = function(w){
- if(this.search(w) != -1) return;
+ if(this.search(w) != -1) return -1;
  this.add(w);
+ return 0;
 }
 Vocabulary.search = function(w){
  var ind = -1;
@@ -39,16 +40,14 @@ Vocabulary.merge_word = function(w, text){
   ind = this.search(v);
   if(ind != -1){
    if(this.words[ind].level >= 0){
-    this.check_and_add(v + w);
-    tright++;
+    if(this.check_and_add(v + w) == 0) tright++;
    }
   }
   v = text.substring(con[i] + w.length, con[i] + 1 + w.length);
   ind =  this.search(v);
   if(ind != -1){
    if(this.words[ind].level >= 0){
-    this.check_and_add(w + v);
-    tleft++;
+    if(this.check_and_add(w + v) == 0) tleft++;
    }
   }
  }
