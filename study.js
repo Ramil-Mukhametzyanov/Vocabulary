@@ -92,16 +92,21 @@ Study.stop = function(){
  var t = this._timer.time;
  this.time[this.index] += t;
  this.total_time += t;
- var num = this._vocabulary.merge_word(this.sym, this.text);
- if(num > 0){
-  var len = this._vocabulary.words.length;
-  var word;
-  for(var i = num; i >= 1; i--){
-   word = this._vocabulary.words[len - i].string;
-   this.symbols[len - i] = word;
-   this.time[len - i] = 0;
-   this.prior[len -i] = 0;
-   this.freq[len - i] = this.get_freq(word);
+ var s = this._vocabulary.search(this.sym);
+ if(s != 0 && this._vocabulary.words[s].level >= 0){
+  var arr = [];
+  this._vocabulary.merge_max(this.sym, this.text, arr);
+  num = arr.length;
+  if(num > 0){
+   var len = this.symbols.length;
+   var word;
+   for(var i = num; i >= 1; i--){
+    word = arr[num - i];
+    this.symbols[len - i] = word;
+    this.time[len - i] = 0;
+    this.prior[len -i] = 0;
+    this.freq[len - i] = this.get_freq(word);
+   }
   }
  }
  this.define();

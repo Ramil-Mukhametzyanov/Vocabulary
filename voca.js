@@ -53,3 +53,48 @@ Vocabulary.merge_word = function(w, text){
  }
  return tright + tleft;
 }
+
+Vocabulary.merge_max = function(word, text, arr){
+  var num = this.merge_word(word, text);
+  if(num > 0){
+   var len = this.words.length;
+   for(var i = num; i >= 1; i--){
+    if(this.words[len - i].level >= 0){
+     arr = this.merge_max(this.words[len - i].string, text, arr);
+    }
+   }
+  }else if(num == 0){
+   var l = arr.length;
+   arr[l] = new Object();
+   arr[l].w = word;
+   arr[l].ind = l;
+  }
+  return arr;
+}
+
+Vocabulary.add(" ")
+;
+Vocabulary.level(" ",-1);
+
+Vocabulary.add("\"")
+;
+Vocabulary.level("\"",-1);
+
+Vocabulary.add(".")
+;
+Vocabulary.level(".",-1);
+Vocabulary.add(":")
+;
+Vocabulary.level(":",-1);
+Vocabulary.add(";")
+;
+Vocabulary.level(";",-1);
+Vocabulary.add(",")
+;
+Vocabulary.level(",",-1);
+Vocabulary.add("!")
+;
+Vocabulary.level("!",-1);
+Vocabulary.add("?")
+;
+Vocabulary.level("?",-1);
